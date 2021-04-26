@@ -6,12 +6,20 @@ class BaseRepository {
     host = process.env.DATABASE_URL || 'localhost'
 
     config = {
-        database: 'jogo_forca',
-        host: this.host,
-        user: 'postgres',
-        password: 'postgres',
-        port: 5432
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        }
+      
     }
+
+    // config = {
+    //     database: 'jogo_forca',
+    //     host: this.host,
+    //     user: 'postgres',
+    //     password: 'postgres',
+    //     port: 5432
+    // }
     constructor() {
         this.connData = this.config;
     }
