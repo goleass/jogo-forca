@@ -13,6 +13,7 @@ class BaseRepository {
     constructor() {
         this.connData = this.config;
         
+        
     }
 
     fetchRow = async (text, value = undefined) => {
