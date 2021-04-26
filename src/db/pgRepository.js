@@ -3,9 +3,11 @@ const withQuotes = require('../_util/withQuotes');
 
 class BaseRepository {
 
+    host = process.env.DATABASE_URL || 'localhost'
+
     config = {
         database: 'jogo_forca',
-        host: 'localhost',
+        host: this.host,
         user: 'postgres',
         password: 'postgres',
         port: 5432
