@@ -22,10 +22,6 @@ class BaseRepository {
     // }
     constructor() {
         this.connData = this.config;
-
-        this.fetchRow(require('../_util/create.js'))
-            .then(r => console.log(r))
-            .catch(e => console.log(e))
     }
 
     fetchRow = async (text, value = undefined) => {

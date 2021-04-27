@@ -6,14 +6,14 @@ CREATE TABLE if not exists public.usuarios
     usuario character varying(100) COLLATE pg_catalog."default" NOT NULL,
     senha character varying(100) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT usuarios_pkey PRIMARY KEY (pk_cod_usuario, usuario)
-)
+);
 
-CREATE TABLE if not exists public.usuarios_pk_cod_usuario_seqcategorias
+CREATE TABLE if not exists public.categorias
 (
     pk_cod_categoria serial,
     nome_categoria character varying(100) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT categorias_pkey PRIMARY KEY (pk_cod_categoria)
-)
+);
 
 CREATE TABLE if not exists public.palavras
 (
@@ -22,5 +22,5 @@ CREATE TABLE if not exists public.palavras
     fk_cod_categoria integer,
     dificuldade smallint,
     CONSTRAINT palavras_pkey PRIMARY KEY (pk_cod_palavra)
-)
+);
     `
