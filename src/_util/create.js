@@ -8,22 +8,12 @@ CREATE TABLE if not exists public.usuarios
     CONSTRAINT usuarios_pkey PRIMARY KEY (pk_cod_usuario, usuario)
 )
 
-TABLESPACE pg_default;
-
-ALTER TABLE public.usuarios
-    OWNER to postgres;
-
 CREATE TABLE if not exists public.usuarios_pk_cod_usuario_seqcategorias
 (
     pk_cod_categoria serial,
     nome_categoria character varying(100) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT categorias_pkey PRIMARY KEY (pk_cod_categoria)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE public.categorias
-    OWNER to postgres;
 
 CREATE TABLE if not exists public.palavras
 (
