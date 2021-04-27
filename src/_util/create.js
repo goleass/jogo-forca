@@ -25,7 +25,19 @@ TABLESPACE pg_default;
 ALTER TABLE public.categorias
     OWNER to postgres;
 
+CREATE TABLE if not exists public.palavras
+(
+    pk_cod_palavra integer NOT NULL DEFAULT nextval('palavras_pk_cod_palavra_seq'::regclass),
+    nome_palavra character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    fk_cod_categoria integer,
+    dificuldade smallint,
+    CONSTRAINT palavras_pkey PRIMARY KEY (pk_cod_palavra)
+)
 
+TABLESPACE pg_default;
+
+ALTER TABLE public.palavras
+    OWNER to postgres;
 
 
     `

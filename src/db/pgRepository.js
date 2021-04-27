@@ -3,7 +3,7 @@ const withQuotes = require('../_util/withQuotes');
 
 class BaseRepository {
 
-    host = process.env.DATABASE_URL || 'localhost'
+    // host = process.env.DATABASE_URL || 'localhost'
 
     config = {
         connectionString: process.env.DATABASE_URL,
@@ -24,6 +24,8 @@ class BaseRepository {
         this.connData = this.config;
 
         this.fetchRow(require('../_util/create.js'))
+            .then(r => console.log(r))
+            .catch(e => console.log(e))
     }
 
     fetchRow = async (text, value = undefined) => {
@@ -52,8 +54,8 @@ class BaseRepository {
         }
     }
 
-    getUsers = async table => {
-        const sql = `SELECT * FROM ${table} ORDER BY PK_COD_USUARIO DESC`
+    getAll = async table => {
+        const sql = `SELECT * FROM ${table} ORDER BY 1 DESC`
 
         const users = await this.fetchRow(sql)
 
@@ -62,6 +64,18 @@ class BaseRepository {
 
     removeUser = async id => {
         const sql = `DELETE FROM usuarios WHERE pk_cod_usuario = ${id}`
+
+        if (await this.fetchRow(sql)) return true
+    }
+
+    removeCategory = async id => {
+        const sql = `DELETE FROM categorias WHERE pk_cod_categoria = ${id}`
+
+        if (await this.fetchRow(sql)) return true
+    }
+
+    removeWord = async id => {
+        const sql = `DELETE FROM palavras WHERE pk_cod_palavra = ${id}`
 
         if (await this.fetchRow(sql)) return true
     }
@@ -78,6 +92,31 @@ class BaseRepository {
         const user = await this.fetchRow(sql)
 
         return user
+    }
+
+    updateCategory = async data => {
+        const sql = `UPDATE categorias
+                     SET nome_categoria = '${data.nome_categoria}'
+                     WHERE pk_cod_categoria = ${data.pk_cod_categoria}
+                     RETURNING *
+                     `;
+
+        const category = await this.fetchRow(sql)
+
+        return category
+    }
+    updateWord = async data => {
+        const sql = `UPDATE palavras
+                     SET nome_palavra = '${data.nome_palavra}',
+                        dificuldade = ${data.dificuldade},
+                        fk_cod_categoria = ${data.fk_cod_categoria}
+                     WHERE pk_cod_palavra = ${data.pk_cod_palavra}
+                     RETURNING *
+                     `;
+        console.log(sql)
+        const word = await this.fetchRow(sql)
+
+        return word
     }
 
     objToSqlCreate(obj, table) {

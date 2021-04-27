@@ -5,7 +5,7 @@ router.get('/', async (req, res) => {
     try {
         const con = new BaseRepository()
 
-        const users = await con.getUsers('usuarios')
+        const users = await con.getAll('usuarios')
 
         return res.send(users)
     } catch (error) {
