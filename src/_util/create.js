@@ -33,11 +33,4 @@ CREATE TABLE if not exists public.palavras
     dificuldade smallint,
     CONSTRAINT palavras_pkey PRIMARY KEY (pk_cod_palavra)
 )
-
-TABLESPACE pg_default;
-
-ALTER TABLE public.palavras
-    OWNER to postgres;
-
-
     `
