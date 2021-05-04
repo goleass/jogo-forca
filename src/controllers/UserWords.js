@@ -5,7 +5,7 @@ router.get('/', async (req, res) => {
     try {
         const con = new BaseRepository()
 
-        const words = await con.getAll('palavras')
+        const words = await con.getAll('palavras', 'categorias', 'fk_cod_categoria', 'pk_cod_categoria')
 
         return res.send(words)
     } catch (error) {

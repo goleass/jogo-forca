@@ -8,18 +8,18 @@ class BaseRepository {
     config = {
         connectionString: process.env.DATABASE_URL,
         ssl: {
-          rejectUnauthorized: false
+            rejectUnauthorized: false
         }
-      
+
     }
 
-    // config = {
-    //     database: 'jogo_forca',
-    //     host: this.host,
-    //     user: 'postgres',
-    //     password: 'postgres',
-    //     port: 5432
-    // }
+    config = {
+        database: 'jogo_forca',
+        host: this.host,
+        user: 'postgres',
+        password: 'postgres',
+        port: 5432
+    }
     constructor() {
         this.connData = this.config;
     }
@@ -50,8 +50,16 @@ class BaseRepository {
         }
     }
 
-    getAll = async table => {
-        const sql = `SELECT * FROM ${table} ORDER BY 1 DESC`
+    getAll = async (table, innerTable = null, fkName1=null,fkName2=null) => {
+
+        if (!innerTable) { 
+            var sql = `SELECT * FROM ${table} ORDER BY 1 DESC` 
+        }else {
+            var sql = `SELECT * FROM ${table} 
+                       INNER JOIN ${innerTable}
+                         ON ${fkName1}=${fkName2}
+                       ORDER BY 1 DESC`
+        }
 
         const users = await this.fetchRow(sql)
 
@@ -109,7 +117,7 @@ class BaseRepository {
                      WHERE pk_cod_palavra = ${data.pk_cod_palavra}
                      RETURNING *
                      `;
-        console.log(sql)
+
         const word = await this.fetchRow(sql)
 
         return word
