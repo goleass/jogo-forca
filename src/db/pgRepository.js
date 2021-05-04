@@ -13,13 +13,13 @@ class BaseRepository {
 
     }
 
-    config = {
-        database: 'jogo_forca',
-        host: this.host,
-        user: 'postgres',
-        password: 'postgres',
-        port: 5432
-    }
+    // config = {
+    //     database: 'jogo_forca',
+    //     host: this.host,
+    //     user: 'postgres',
+    //     password: 'postgres',
+    //     port: 5432
+    // }
     constructor() {
         this.connData = this.config;
     }
