@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require('./controllers/userController')(app);
 require('./controllers/UserCategories')(app);
 require('./controllers/UserWords')(app);
+require('./controllers/RankingController')(app);
 
 app.listen(PORT, () =>
   console.log(`Example app listening on port ${PORT}!`),

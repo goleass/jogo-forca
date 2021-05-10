@@ -23,4 +23,14 @@ CREATE TABLE if not exists public.palavras
     dificuldade smallint,
     CONSTRAINT palavras_pkey PRIMARY KEY (pk_cod_palavra)
 );
+
+CREATE TABLE if not exists public.ranking
+(
+    pk_cod_ranking serial,
+	nome_ranking varchar(100),
+    score integer NOT NULL,
+    data date NOT NULL DEFAULT CURRENT_DATE,
+    CONSTRAINT ranking_pkey PRIMARY KEY (pk_cod_ranking)
+)
     `
+
