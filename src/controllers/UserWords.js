@@ -14,6 +14,52 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/get-word', async (req, res) => {
+    try {
+        const { dificuldade, categoria } = req.query
+
+        if (!dificuldade || !categoria) return res.send({ error: "Todos os campos precisam ser definidos." })
+
+        const con = new BaseRepository()
+
+        const words = await con.getAll(
+            'palavras',
+            'categorias',
+            'fk_cod_categoria',
+            'pk_cod_categoria',
+            [
+                { column: 'dificuldade', value: dificuldade },
+                { column: 'pk_cod_categoria', value: categoria }
+            ])
+
+        radom = (max, min) => {
+            let valor = Math.random() * (max - min) + min
+            return Math.floor(valor)
+        }
+
+        const word = words[radom(words.length, 0)]
+
+        // const wordTest = {
+        //     word: "LEONARDO",
+        //     splitWord: [
+        //         { letter: 'L', show: false },
+        //         { letter: 'E', show: false },
+        //         { letter: 'O', show: false },
+        //         { letter: 'N', show: false },
+        //         { letter: 'A', show: false },
+        //         { letter: 'R', show: false },
+        //         { letter: 'D', show: false },
+        //         { letter: 'O', show: false }
+        //     ]
+        // }
+
+        return res.json(word.nome_palavra)
+
+    } catch (error) {
+        res.send(error)
+    }
+})
+
 router.post('/new-word', async (req, res) => {
     try {
         const con = new BaseRepository()
@@ -25,7 +71,7 @@ router.post('/new-word', async (req, res) => {
         const { nome_palavra, dificuldade, fk_cod_categoria } = req.body;
 
         const word = await con.create({
-            nome_palavra, dificuldade, fk_cod_categoria
+            nome_palavra: nome_palavra.toUpperCase(), dificuldade, fk_cod_categoria
         }, 'palavras')
 
         if (!word) {
@@ -67,7 +113,7 @@ router.put('/edit-word', async (req, res) => {
 
         const con = new BaseRepository()
 
-        let word = await con.updateWord({ pk_cod_palavra: id, nome_palavra, dificuldade, fk_cod_categoria })
+        let word = await con.updateWord({ pk_cod_palavra: id, nome_palavra: nome_palavra.toUpperCase(), dificuldade, fk_cod_categoria })
 
         return res.send(word)
 

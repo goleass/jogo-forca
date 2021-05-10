@@ -25,7 +25,7 @@ router.post('/new-category', async (req, res) => {
         const { nome_categoria } = req.body;
 
         const category = await con.create({
-            nome_categoria
+            nome_categoria: nome_categoria.toUpperCase()
         }, 'categorias')
 
         if (!category) {
@@ -67,7 +67,7 @@ router.put('/edit-category', async (req, res) => {
 
         const con = new BaseRepository()
 
-        let category = await con.updateCategory({ pk_cod_categoria: id, nome_categoria })
+        let category = await con.updateCategory({ pk_cod_categoria: id, nome_categoria: nome_categoria.toUpperCase() })
 
         return res.send(category)
 
