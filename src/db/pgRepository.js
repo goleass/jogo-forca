@@ -50,20 +50,37 @@ class BaseRepository {
         }
     }
 
-    getAll = async (table, innerTable = null, fkName1=null,fkName2=null) => {
+    getAll = async (table, innerTable = null, fkName1 = null, fkName2 = null, where = null) => {
+        try {
+            if (!innerTable) {
+                var sql = `SELECT * FROM ${table} `
+            } else {
+                var sql = `SELECT * FROM ${table} 
+                           INNER JOIN ${innerTable}
+                             ON ${fkName1}=${fkName2} `
+            }
 
-        if (!innerTable) { 
-            var sql = `SELECT * FROM ${table} ORDER BY 1 DESC` 
-        }else {
-            var sql = `SELECT * FROM ${table} 
-                       INNER JOIN ${innerTable}
-                         ON ${fkName1}=${fkName2}
-                       ORDER BY 1 DESC`
+            if (where) {
+                let cond = []
+                where.map(v => {
+                    cond.push(` ${v.column} = ${v.value} `)
+                })
+
+                sql = ` ${sql} 
+                        WHERE ${cond.join(' AND ')} `
+            }
+
+            sql = `${sql} 
+                    ORDER BY 1 DESC`
+
+            // console.log(sql)
+
+            const users = await this.fetchRow(sql)
+
+            return users
+        } catch (error) {
+            console.log(error)
         }
-
-        const users = await this.fetchRow(sql)
-
-        return users
     }
 
     removeUser = async id => {
