@@ -39,21 +39,26 @@ router.get('/get-word', async (req, res) => {
 
         const word = words[radom(words.length, 0)]
 
-        // const wordTest = {
-        //     word: "LEONARDO",
-        //     splitWord: [
-        //         { letter: 'L', show: false },
-        //         { letter: 'E', show: false },
-        //         { letter: 'O', show: false },
-        //         { letter: 'N', show: false },
-        //         { letter: 'A', show: false },
-        //         { letter: 'R', show: false },
-        //         { letter: 'D', show: false },
-        //         { letter: 'O', show: false }
-        //     ]
-        // }
-
         return res.json(word.nome_palavra)
+
+    } catch (error) {
+        res.send(error)
+    }
+})
+
+router.get('/get-word-name', async (req, res) => {
+    try {
+        const { nome_palavra } = req.query
+
+        if (!nome_palavra ) return res.send({ error: "Todos os campos precisam ser definidos." })
+
+        const con = new BaseRepository()
+
+        const word = await con.getAll(
+            'palavras', null, null, null,
+            [{ column: 'nome_palavra', value: `'${nome_palavra}'` }])
+
+        return res.json({word: word[0]})
 
     } catch (error) {
         res.send(error)

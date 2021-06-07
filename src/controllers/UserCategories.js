@@ -14,6 +14,25 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/get-category-name', async (req, res) => {
+    try {
+        const { nome_categoria } = req.query
+
+        if (!nome_categoria ) return res.send({ error: "Todos os campos precisam ser definidos." })
+
+        const con = new BaseRepository()
+
+        const category = await con.getAll(
+            'categorias', null, null, null,
+            [{ column: 'nome_categoria', value: `'${nome_categoria}'` }])
+
+        return res.json({category: category[0]})
+
+    } catch (error) {
+        res.send(error)
+    }
+})
+
 router.post('/new-category', async (req, res) => {
     try {
         const con = new BaseRepository()
