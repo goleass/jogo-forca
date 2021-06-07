@@ -22,15 +22,29 @@ router.get('/get-word', async (req, res) => {
 
         const con = new BaseRepository()
 
-        const words = await con.getAll(
-            'palavras',
-            'categorias',
-            'fk_cod_categoria',
-            'pk_cod_categoria',
-            [
-                { column: 'dificuldade', value: dificuldade },
-                { column: 'pk_cod_categoria', value: categoria }
-            ])
+        let words = []
+
+        
+        if(categoria == "-1"){ // todas
+            words = await con.getAll(
+                'palavras',
+                null,
+                null,
+                null,
+                [
+                    { column: 'dificuldade', value: dificuldade }
+                ])
+        }else {
+            words = await con.getAll(
+                'palavras',
+                'categorias',
+                'fk_cod_categoria',
+                'pk_cod_categoria',
+                [
+                    { column: 'dificuldade', value: dificuldade },
+                    { column: 'pk_cod_categoria', value: categoria }
+                ])
+        }
 
         radom = (max, min) => {
             let valor = Math.random() * (max - min) + min
