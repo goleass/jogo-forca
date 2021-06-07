@@ -14,6 +14,29 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/get-user-name', async (req, res) => {
+    try {
+        const { usuario } = req.query
+
+        if (!usuario) return res.send({ error: "Todos os campos precisam ser definidos." })
+
+        const con = new BaseRepository()
+
+        console.log(usuario)
+
+        const user = await con.getAll(
+            'usuarios', null, null, null,
+            [{ column: 'usuario', value: `'${usuario}'` }])
+
+        console.log(user)
+
+        return res.json({ user: user[0] })
+
+    } catch (error) {
+        res.send(error)
+    }
+})
+
 router.post('/new-user', async (req, res) => {
     try {
         const con = new BaseRepository()
