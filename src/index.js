@@ -9,6 +9,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+require('./controllers/AuthController')(app);
 require('./controllers/userController')(app);
 require('./controllers/UserCategories')(app);
 require('./controllers/UserWords')(app);
